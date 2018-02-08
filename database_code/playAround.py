@@ -1,6 +1,6 @@
-x=0
-y='''asdfas wafdsaf waf
-asfwa \\x fasdfw
-asfdasfw
-'''
-print y
+import sys,os
+
+files=os.listdir("/scratch/si699w18_fluxm/jiaqima/Opioid")
+# File=sys.argv[1
+# print File
+print files

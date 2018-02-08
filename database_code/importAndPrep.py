@@ -5,8 +5,7 @@ from bz2 import BZ2File
 filepath=('/home/john/Desktop/2013-01.bz2')
 dictList=[]
 
-for line in BZ2File(filepath,'r'):
-    dictList.append(json.loads(line))
+
 
 # for key in dictList[0]:
 #     print key + " - " + str(type(dictList[0][key]))
@@ -135,9 +134,28 @@ def countPostDays (dictList):
 #     if x:
 #         print line['subreddit']+ ' --- '+ x
 
-subList=[]
 
 # makeRedditTables('reddit-opiates.db')
 # populateRedditTables('reddit-opiates.db',dictList)
 
+def getAllFiles(folder_path):
+    import sys, os
+    files = os.listdir(folder_path)
+    fullPathFiles=[]
+    for file in files:
+        thisPath = folder_path+file
+        fullPathFiles.append(thisPath)
+    return fullPathFiles
 
+# filePaths= getAllFiles('/home/john/Desktop/bz2/')
+# print filePath
+def buildDatabase(folder_path):
+    dictList=[]
+    filePaths = getAllFiles(folder_path)
+    for path in filePaths:
+        for line in BZ2File(path,'r'):
+            dictList.append(json.loads(line))
+    makeRedditTables('reddit-opiates.db')
+    populateRedditTables('reddit-opiates.db',dictList)
+
+buildDatabase('/scratch/si699w18_fluxm/jiaqima/Opioid/')

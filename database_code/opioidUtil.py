@@ -134,9 +134,14 @@ def makeDistributionGraph(input,numberIndex,xLabel,yLabel,title,color):
     plt.title(title)
     plt.show()
 
+#####
+def getInteractions(work_file):
+    interactions=0
+    #####RETURNS LIST OF USERS WHO COMMENT ON EACH OTHERS POSTS###
+    return interactions
+#####
+work_file='reddit-opiates.db'
 
-# work_file='reddit-opiates.db'
-#
 # x= findPopularPosts(work_file,'opiates',1)
 #
 # # makeDistributionGraph(x,0,"Distribution of Comment Scores as Percent of Total")
@@ -145,3 +150,24 @@ def makeDistributionGraph(input,numberIndex,xLabel,yLabel,title,color):
 # print y
 # print len(y)
 # makeDistributionGraph(x,0,'Comment Count','Percent of Total',"Distribution of Comment Scores as Percent of Total",'r')
+y=getCommentAndTime(work_file,'opiates',0,999999999999)
+import datetime
+print len(y)
+print y[:5]
+print datetime.datetime.utcfromtimestamp(y[0][1]).year
+
+def quickBarPlot(data):
+    import datetime
+    xPoints = []
+    yPoints = []
+    for item in data:
+        thisYear=datetime.datetime.utcfromtimestamp(item[1]).year
+        xPoints.append(thisYear)
+    xSetPoints=list(set(xPoints))
+    for year in xSetPoints:
+        thisCount=xPoints.count(year)
+        yPoints.append(thisCount)
+    print xSetPoints
+    print yPoints
+
+quickBarPlot(y)
