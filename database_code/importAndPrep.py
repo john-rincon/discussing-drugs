@@ -149,13 +149,19 @@ def getAllFiles(folder_path):
 
 # filePaths= getAllFiles('/home/john/Desktop/bz2/')
 # print filePath
-def buildDatabase(folder_path):
+def buildDatabase(filePath):
     dictList=[]
-    filePaths = getAllFiles(folder_path)
-    for path in filePaths:
-        for line in BZ2File(path,'r'):
-            dictList.append(json.loads(line))
-    makeRedditTables('reddit-opiates.db')
+    for line in BZ2File(filePath,'r'):
+        dictList.append(json.loads(line))
+    # makeRedditTables('reddit-opiates.db')
     populateRedditTables('reddit-opiates.db',dictList)
 
-buildDatabase('/scratch/si699w18_fluxm/jiaqima/Opioid/')
+# buildDatabase('/scratch/si699w18_fluxm/jiaqima/Opioid/')
+fileNamesPath='/scratch/si699w18_fluxm/jrincon/filesNames.txt'
+fileNames=list((csv.reader(open(fileNamesPath,'rU'),delimiter='\n')))
+
+for file in fileNames:
+    fullFilePath='/scratch/si699w18_fluxm/jiaqima/Opioid/'+file[0]
+    populateRedditTables(fullFilePath)
+    with open('added.txt', 'a') as file:
+        file.write(file[0]+'\n')

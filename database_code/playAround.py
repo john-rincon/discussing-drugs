@@ -1,6 +1,3 @@
-import sys,os
-
-files=os.listdir("/scratch/si699w18_fluxm/jiaqima/Opioid")
-# File=sys.argv[1
-# print File
-print files
+for i in range(5):
+    with open('file.txt', 'a') as file:
+        file.write('input\n')
