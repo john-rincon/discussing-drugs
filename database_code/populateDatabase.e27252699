@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "importAndPrep.py", line 165, in <module>
+    buildDatabase(fullFilePath)
+  File "importAndPrep.py", line 157, in buildDatabase
+    populateRedditTables('reddit-opiates.db',dictList)
+  File "importAndPrep.py", line 62, in populateRedditTables
+    commentValues=[row['name'] ,row['subreddit_id'], row['body'], row['author'], row['gilded'] ,  row['author_flair_text'],row['downs'],
+KeyError: 'name'

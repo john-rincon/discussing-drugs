@@ -1,0 +1,27 @@
+#PBS -N populateDatabase 
+#PBS -M jrincon@umich.edu
+#PBS -m abe 
+#PBS -V
+
+
+#PBS -q fluxm
+#PBS -A si699w18_fluxm 
+#PBS -l pmem=30000mb,qos=flux,walltime=36:00:00
+
+
+#### change above
+
+
+
+# Include the next three lines always
+if [ "x${PBS_NODEFILE}" != "x" ] ; then
+   cat $PBS_NODEFILE   # contains a list of the CPUs you were using if run with PBS
+fi
+
+###PYTHON CODE####
+
+cd $PBS_O_WORKDIR
+pwd
+python importAndPrep.py 
+
+

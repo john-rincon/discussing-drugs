@@ -57,7 +57,7 @@ def populateRedditTables(work_file,input_file):
         subredditValues=[row['subreddit_id'],row['subreddit']]
         communityString = "INSERT OR IGNORE INTO Community (subreddit_id, user_id) VALUES (?,?)"
         communityValues=[row['subreddit_id'],row['author']]
-        commentString = '''INSERT INTO Comment (comment_id, subreddit_id, body, user_id, gilded, author_flair_text,
+        commentString = '''INSERT OR IGNORE INTO Comment (comment_id, subreddit_id, body, user_id, gilded, author_flair_text,
          downs, ups, controversiality, score, created_utc, parent_id, link_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)'''
         commentValues=[row['name'] ,row['subreddit_id'], row['body'], row['author'], row['gilded'] ,  row['author_flair_text'],row['downs'],
                        row['ups'], row['controversiality'], row['score'], row['created_utc'],row['parent_id'], row['link_id']]
@@ -78,7 +78,7 @@ def populateRedditTables(work_file,input_file):
         # print author
         subList = ['opiates', 'OpiatesRecovery']
         if row['subreddit'] in subList:
-            cur.execute(userString,[author])
+           # cur.execute(userString,[author])
             cur.execute(subredditString,subredditValues)
             cur.execute(communityString, communityValues)
             cur.execute(commentString,commentValues)
@@ -126,7 +126,7 @@ def countPostDays (dictList):
     counts = dict()
     for i in opioidCount:
       counts[i] = counts.get(i, 0) + 1
-    print counts
+   # print counts
 ###################
 
 # for line in dictList:
@@ -160,8 +160,8 @@ def buildDatabase(filePath):
 fileNamesPath='/scratch/si699w18_fluxm/jrincon/filesNames.txt'
 fileNames=list((csv.reader(open(fileNamesPath,'rU'),delimiter='\n')))
 
-for file in fileNames:
-    fullFilePath='/scratch/si699w18_fluxm/jiaqima/Opioid/'+file[0]
-    populateRedditTables(fullFilePath)
+for fileName in fileNames:
+    fullFilePath='/scratch/si699w18_fluxm/jiaqima/Opioid/'+fileName[0]
+    buildDatabase(fullFilePath)
     with open('added.txt', 'a') as file:
-        file.write(file[0]+'\n')
+        file.write(fileName[0]+'\n')
