@@ -150,7 +150,7 @@ work_file='reddit-opiates.db'
 # print y
 # print len(y)
 # makeDistributionGraph(x,0,'Comment Count','Percent of Total',"Distribution of Comment Scores as Percent of Total",'r')
-y=getCommentAndTime(work_file,'opiates',0,999999999999)
+# y=getCommentAndTime(work_file,'opiates',0,999999999999)
 import datetime
 print len(y)
 print y[:5]
@@ -170,4 +170,34 @@ def quickBarPlot(data):
     print xSetPoints
     print yPoints
 
-quickBarPlot(y)
+# quickBarPlot(y)
+# print findPopularPosts(work_file,'opiates',.1)[-1][0]
+
+def makeStackedBarChart(input,numberIndex,xLabel,yLabel,title,color):
+    import matplotlib.pyplot as plt
+    total=0
+    for post in input:
+        total+=int(post[numberIndex])
+    total=total+0.00
+    xPoints=[0]
+    yPoints=[0]
+    i=1
+    percentTotal=0.0
+    for post in input:
+        xPoints.append(i)
+        i+=1
+        if percentTotal==0.0:
+            maxPercent= post[numberIndex]/total
+        thisPercent=int(post[numberIndex])/total
+        percentTotal+=thisPercent
+        yPoints.append(thisPercent)
+    # print yPoints[:100]
+    # print xPoints[:100]
+    line=plt.plot(xPoints,yPoints)
+
+    plt.axis([-25,len(input),0,maxPercent+maxPercent*.1])
+    plt.setp(line,'color',color,'linewidth',3.0,'ls','-')
+    plt.xlabel(xLabel)
+    plt.ylabel(yLabel)
+    plt.title(title)
+    plt.show()

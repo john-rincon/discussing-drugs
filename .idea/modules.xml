@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/PycharmProjects/.idea/PycharmProjects.iml" filepath="$USER_HOME$/PycharmProjects/.idea/PycharmProjects.iml" />
+      <module fileurl="file:///usr/share/QuickUMLS-master/.idea/QuickUMLS-master.iml" filepath="/usr/share/QuickUMLS-master/.idea/QuickUMLS-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/discussing-drugs.iml" filepath="$PROJECT_DIR$/.idea/discussing-drugs.iml" />
+    </modules>
+  </component>
+</project>
