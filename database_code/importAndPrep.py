@@ -2,7 +2,7 @@ import csv,json, datetime
 from bz2 import BZ2File
 
 # filepath=('/home/john/Downloads/reddit-data.csv')
-filepath=('/home/john/Desktop/2013-01.bz2')
+filepath='/home/john/Desktop/2015-08.bz2'
 dictList=[]
 
 
@@ -59,7 +59,10 @@ def populateRedditTables(work_file,input_file):
         communityValues=[row['subreddit_id'],row['author']]
         commentString = '''INSERT OR IGNORE INTO Comment (comment_id, subreddit_id, body, user_id, gilded, author_flair_text,
          downs, ups, controversiality, score, created_utc, parent_id, link_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)'''
-        commentValues=[row['name'] ,row['subreddit_id'], row['body'], row['author'], row['gilded'] ,  row['author_flair_text'],row['downs'],
+        downs=row['ups']-row['score']
+        ####NOTE*****
+        ######## AT 2015-08, names is replaced by 'id', and downs is no longer provided
+        commentValues=[row['id'],row['subreddit_id'], row['body'], row['author'], row['gilded'] ,  row['author_flair_text'],downs,
                        row['ups'], row['controversiality'], row['score'], row['created_utc'],row['parent_id'], row['link_id']]
         commentString=commentString.strip('\n')
         # subredditValues=[str(row['subreddit_id']),str(row['subreddit'])]
@@ -154,14 +157,24 @@ def buildDatabase(filePath):
     for line in BZ2File(filePath,'r'):
         dictList.append(json.loads(line))
     # makeRedditTables('reddit-opiates.db')
-    populateRedditTables('reddit-opiates.db',dictList)
+    # populateRedditTables('reddit-opiates.db',dictList)
+    populateRedditTables('reddit-database-test.db',dictList)
 
-# buildDatabase('/scratch/si699w18_fluxm/jiaqima/Opioid/')
-fileNamesPath='/scratch/si699w18_fluxm/jrincon/filesNames.txt'
-fileNames=list((csv.reader(open(fileNamesPath,'rU'),delimiter='\n')))
 
-for fileName in fileNames:
-    fullFilePath='/scratch/si699w18_fluxm/jiaqima/Opioid/'+fileName[0]
-    buildDatabase(fullFilePath)
-    with open('added.txt', 'a') as file:
-        file.write(fileName[0]+'\n')
+
+
+######run code in flux ###
+def runOnFlux():
+    fileNamesPath='/scratch/si699w18_fluxm/jrincon/filesNames.txt'
+    fileNames=list((csv.reader(open(fileNamesPath,'rU'),delimiter='\n')))
+
+
+    for fileName in fileNames:
+        fullFilePath='/scratch/si699w18_fluxm/jiaqima/Opioid/'+fileName[0]
+        buildDatabase(fullFilePath)
+        with open('added.txt', 'a') as file:
+            file.write(fileName[0]+'\n')
+# runOnFlux()
+
+makeRedditTables('reddit-database-test.db')
+buildDatabase(filepath)

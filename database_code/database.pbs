@@ -1,4 +1,5 @@
 #PBS -N populateDatabase 
+###enter your account info here
 #PBS -M jrincon@umich.edu
 #PBS -m abe 
 #PBS -V
@@ -22,6 +23,7 @@ fi
 
 cd $PBS_O_WORKDIR
 pwd
+###change this to you python file name
 python importAndPrep.py 
 
 
