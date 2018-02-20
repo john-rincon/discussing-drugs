@@ -1,10 +1,10 @@
 import csv,json, datetime
 from bz2 import BZ2File
-
+#########USED FOR LOCAL TESTING############
 # filepath=('/home/john/Downloads/reddit-data.csv')
-filepath='/home/john/Desktop/2015-08.bz2'
-dictList=[]
-
+# filepath='/home/john/Desktop/2015-08.bz2'
+# dictList=[]
+#############################################
 
 
 # for key in dictList[0]:
@@ -152,29 +152,29 @@ def getAllFiles(folder_path):
 
 # filePaths= getAllFiles('/home/john/Desktop/bz2/')
 # print filePath
-def buildDatabase(filePath):
+def buildDatabase(work_file,dataFilePath):
     dictList=[]
-    for line in BZ2File(filePath,'r'):
-        dictList.append(json.loads(line))
+    for line in BZ2File(dataFilePath,'r'):
+        thisLine=json.loads(line)
+        populateRedditTables(work_file,[thisLine])
     # makeRedditTables('reddit-opiates.db')
     # populateRedditTables('reddit-opiates.db',dictList)
-    populateRedditTables('reddit-database-test.db',dictList)
+    # populateRedditTables('reddit-database-test.db',dictList)
 
 
 
 
 ######run code in flux ###
-def runOnFlux():
+def runOnFlux(work_file):
     fileNamesPath='/scratch/si699w18_fluxm/jrincon/filesNames.txt'
     fileNames=list((csv.reader(open(fileNamesPath,'rU'),delimiter='\n')))
 
-
     for fileName in fileNames:
         fullFilePath='/scratch/si699w18_fluxm/jiaqima/Opioid/'+fileName[0]
-        buildDatabase(fullFilePath)
+        buildDatabase(work_file,fullFilePath)
         with open('added.txt', 'a') as file:
             file.write(fileName[0]+'\n')
-# runOnFlux()
 
 makeRedditTables('reddit-database-test.db')
-buildDatabase(filepath)
+runOnFlux('reddit-database-test.db')
+# buildDatabase(filepath)
