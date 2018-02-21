@@ -154,10 +154,15 @@ def getAllFiles(folder_path):
 # print filePath
 def buildDatabase(work_file,dataFilePath):
     dictList=[]
+    counter=0
     for line in BZ2File(dataFilePath,'r'):
         thisLine=json.loads(line)
         populateRedditTables(work_file,[thisLine])
-    # makeRedditTables('reddit-opiates.db')
+        counter+=1
+        if counter % 1000 ==0:
+            print 'counted 1000 more'
+            print dataFilePath
+# makeRedditTables('reddit-opiates.db')
     # populateRedditTables('reddit-opiates.db',dictList)
     # populateRedditTables('reddit-database-test.db',dictList)
 
@@ -175,6 +180,6 @@ def runOnFlux(work_file):
         with open('added.txt', 'a') as file:
             file.write(fileName[0]+'\n')
 
-makeRedditTables('reddit-database-test.db')
-runOnFlux('reddit-database-test.db')
+# makeRedditTables('reddit-database-test.db')
+runOnFlux('reddit-opiates.db')
 # buildDatabase(filepath)
